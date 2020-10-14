@@ -46,6 +46,7 @@ const Button = props => {
 
   return (
     <TouchableHighlight 
+        testID={"reusedButton"}
         style={buttonStyle}
         underlayColor={'#fefefe'}
         onPress={onPress}

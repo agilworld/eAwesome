@@ -1,17 +1,17 @@
 import React from "react"
-import { Button } from "react-native";
-import { Navigation } from "react-native-navigation"
+import AsyncStorage from "@react-native-community/async-storage"
+import { loginScreen } from "../app"
+import Button from "./Button"
 
 const BackButton = (props) => {
-    return (<Button
-        title='Log out'
-        color='#710ce3'
-        onPress={() => Navigation.push(props.componentId, {
-            component: {
-                name: 'com.Login'
-            }
-        })}
-    />)
+    return (<Button 
+            label={"Log out"}
+            variant="plain"
+            onPress={() => {
+                AsyncStorage.removeItem('token')
+                loginScreen()
+            }}
+        />)
 }
 
 export default BackButton

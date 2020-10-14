@@ -1,4 +1,3 @@
-import {Dimensions, PixelRatio} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 export const AppLaunched = () => {
@@ -86,7 +85,13 @@ export async function homeScreen() {
                 name: 'com.Home',
                 options: {
                   topBar: {
-                   
+                    rightButtons: [
+                      {
+                        component:{
+                          name:"ButtonComponent"
+                        }
+                      }
+                    ],
                     visible: true,
                     backButton: {
                       visible:true

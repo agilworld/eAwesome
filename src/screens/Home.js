@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import axios from "axios"
 import { isEmpty } from "lodash"
 
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 
 const Item = ({item}) => (
     <View style={styles.item}>
-        {console.log(item)}
         <Text style={styles.title}>{item.name}</Text>
         <Text style={styles.email}>{item.email}</Text>
         <Text style={styles.phone}>Phone no. {item.phone}</Text>
@@ -49,10 +48,6 @@ const Item = ({item}) => (
 
 const Home = (props) => {
     const [data, setData] = useState(null)
-    const [state, setState] = useState({
-        loading:false,
-        isSuccess:false
-    })
 
     const renderItem = ({ item }) => (
         <Item item={item} />

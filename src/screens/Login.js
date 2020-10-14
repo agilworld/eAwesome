@@ -1,10 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
-import {TextInput , StyleSheet, TouchableHighlight, View, Text, Alert, AsyncStorage } from 'react-native';
-import { isEmpty, has, isNil } from "lodash"
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Alert } from 'react-native';
+import { isEmpty } from "lodash"
+import AsyncStorage from "@react-native-community/async-storage"
 import { homeScreen  } from "../app"
-import { Navigation } from "react-native-navigation"
 import { credentials } from "../constants/config"
+import InputText from "../components/InputText"
+import Button from "../components/Button"
 
 const styles = StyleSheet.create({
     container: {
@@ -26,7 +28,6 @@ const styles = StyleSheet.create({
     header:{
         alignItems: 'center',
         margin:20,
-        
         justifyContent: 'center',
     },
     formContainer: {
@@ -41,26 +42,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 80,
-    },
-    button: {
-      height: 40,
-      backgroundColor:"#E04081",
-      color:'#fff',
-      borderRadius: 4,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop:10,
-    },
-    buttonText: {
-      color: 'white',
-    },
-    inputText:{
-        height: 40, 
-        padding:12,
-        borderRadius: 4,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        marginBottom:10
     }
   })
 
@@ -71,6 +52,12 @@ const styles = StyleSheet.create({
         loading:false,
         isSuccess:false
     })
+
+    useEffect(() => {
+        if( AsyncStorage.getItem("token") === credentials.token) {
+            homeScreen()
+        }
+    }, []);
 
     const onChangeId = (text) => {
         console.log(text)
@@ -99,7 +86,10 @@ const styles = StyleSheet.create({
             return
         }
 
-        homeScreen()
+        AsyncStorage.setItem("token", credentials.token)
+            .then(()=>{
+                homeScreen()
+            })
     }
 
     return( 
@@ -111,32 +101,28 @@ const styles = StyleSheet.create({
                     </Text>
                 </View>
                
-                <TextInput
-                    style={styles.inputText}
+                <InputText
                     placeholder={"Enter User ID"}
                     autoCompleteType="username"
                     placeholderTextColor={"#ccc"}
-                    onChangeText={text => onChangeId(text)}
+                    onChange={onChangeId}
                     value={state.id}
                 />
 
-                <TextInput
-                    style={styles.inputText}
+                <InputText
                     placeholder={"Enter password"}
-                    onChangeText={text => onChangePass(text)}
+                    onChange={onChangePass}
                     placeholderTextColor={"#ccc"}
                     textContentType={'password'}
                     secureTextEntry={true}
                     value={state.password}
                 />
 
-                <TouchableHighlight
+                <Button
+                    label={"Sign In"}
+                    variant="contained"
                     onPress={onPress}
-                    style={styles.button}
-                  
-                >
-                    <Text style={{color:'#fff'}}>Sign In</Text>
-                </TouchableHighlight>
+                />
 
           </View>
       </View>

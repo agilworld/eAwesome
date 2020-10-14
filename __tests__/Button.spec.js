@@ -2,11 +2,24 @@ import React from 'react';
 import {render,fireEvent} from 'react-native-testing-library';
 import Button from '../src/components/Button';
 
-describe('Button Component', () => {
-  it('clicking button', () => {
-    const buttonHandler = jest.fn();
-    const {queryByText, getByTestId} = render(<Button label="Button" onPress={buttonHandler}  />)
-    expect(queryByText('Button')).not.toBeNull()
-    fireEvent.press(getByTestId('reusedButton'))
-  })
+describe('<Button />', () => {
+    describe('Good case - Pass some props', () => {
+        const props = {
+            label:'Sign In',
+            variant:'contained',
+            onPress:() => {}
+        }
+        it('should render correctly', () => {
+            const wrapper = render(<Button {...props} />)
+            expect(wrapper.toJSON()).toMatchSnapshot()
+        })
+    })
+
+    describe('Bad case - Not pass any props', () => {
+        it('should render correctly', () => {
+            const wrapper = render(<Button />)
+            expect(wrapper.toJSON()).toMatchSnapshot()
+        })
+    })
+ 
 });

@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> Bad case - No pass any props should render correctly 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "paddingRight": 10,
+    }
+  }
+  testID="reusedButton"
+>
+  <Text
+    style={
+      Object {
+        "color": "#333",
+      }
+    }
+  >
+    Button
+  </Text>
+</View>
+`;
+
+exports[`<Button /> Good case - Pass some props should render correctly 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#E04081",
+      "borderRadius": 4,
+      "color": "#fff",
+      "height": 40,
+      "justifyContent": "center",
+      "marginTop": 10,
+    }
+  }
+  testID="reusedButton"
+>
+  <Text
+    style={
+      Object {
+        "color": "#fff",
+      }
+    }
+  >
+    Sign In
+  </Text>
+</View>
+`;

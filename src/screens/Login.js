@@ -118,7 +118,11 @@ const styles = StyleSheet.create({
                     value={state.password}
                 />
 
-                <Button />
+                <Button
+                    label={"Sign In"}
+                    variant="contained"
+                    onPress={onPress}
+                />
 
           </View>
       </View>

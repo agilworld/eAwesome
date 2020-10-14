@@ -58,12 +58,15 @@ export async function homeScreen() {
         animate: true,
         elevation: 0,
         noBorder: true,
+        backButton: {
+          title:'Back'
+        },
         background: {
           color: 'white'
         },
         title: {
           alignment: 'center',
-          fontSize: 14
+          fontSize: 20
         },
       },
       statusBar: {
@@ -82,12 +85,15 @@ export async function homeScreen() {
               component: {
                 name: 'com.Home',
                 options: {
-                 
                   topBar: {
-                    visible: false,
-                    title: {
-                      text: ''
+                   
+                    visible: true,
+                    backButton: {
+                      visible:true
                     },
+                    title: {
+                      text: 'User List'
+                    }
                   },
                 },
               },

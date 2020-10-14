@@ -1,6 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
-import { StyleSheet, Button, View} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Button, View, Text, FlatList } from 'react-native';
+import axios from "axios"
+import { isEmpty } from "lodash"
 
 const styles = StyleSheet.create({
     container: {
@@ -8,60 +10,77 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: '#fff',
     },
-    innerContainer: {
-      paddingHorizontal: 5,
-      paddingTop: 30,
-      backgroundColor: 'rgba(0,0,0,0.4)',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      justifyContent: 'center',
-    },
+
     formContainer: {
       backgroundColor: 'white',
-      justifyContent: 'center',
       margin: 15,
     },
-    buttonContainer: {
-      marginTop: 15,
+    
+    item:{
+        marginBottom:10,
+        borderBottomColor:'#eee',
+        borderBottomWidth:1,
+        paddingBottom:7
     },
-    logoContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 80,
+    title:{
+        fontSize:18,
+        fontWeight:"600",
     },
-    button: {
-      height: 40,
-      borderRadius: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 20,
+    email:{
+        color:"#6332A2"
     },
-    buttonText: {
-      color: 'white',
+    phone:{
+        color:"#aaa"
     },
-    inputText:{
-        height: 40, 
-        borderColor: '#ddd',
-        borderWidth: 1
+    address:{
+        color:"#aaa"
     }
   })
 
-const Home: () => React$Node = () => {
+const Item = ({item}) => (
+    <View style={styles.item}>
+        {console.log(item)}
+        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.email}>{item.email}</Text>
+        <Text style={styles.phone}>Phone no. {item.phone}</Text>
+        <Text style={styles.address}>Address. {item.address.street}, {item.address.suite}, {item.address.city}, {item.address.zipcode}</Text>
+    </View>
+)
+
+const Home = (props) => {
+    const [data, setData] = useState(null)
     const [state, setState] = useState({
-        id:'',
-        password:'',
         loading:false,
         isSuccess:false
     })
 
+    const renderItem = ({ item }) => (
+        <Item item={item} />
+    )
+
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/users', {
+            timeout: 1000, // default is `0` (no timeout)
+        }).then(res=>{
+            console.log(res.data)
+            if( ! isEmpty(res.data) ) {
+                setData(res.data)
+            } else {
+                setData(false)
+            }
+        }).catch(err=>{
+
+        })
+    }, []);
+
     return(
         <View style={styles.container}>
             <View style={styles.formContainer}>
-                <Text>Home</Text>
-
+                {data && <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.username}
+                />}
           </View>
       </View>
     )

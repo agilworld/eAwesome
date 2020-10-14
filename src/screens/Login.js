@@ -1,7 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import {TextInput , StyleSheet, TouchableHighlight, View, Text} from 'react-native';
-
+import {TextInput , StyleSheet, TouchableHighlight, View, Text, Alert, AsyncStorage } from 'react-native';
+import { isEmpty, has, isNil } from "lodash"
+import { homeScreen  } from "../app"
+import { Navigation } from "react-native-navigation"
+import { credentials } from "../constants/config"
 
 const styles = StyleSheet.create({
     container: {
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     }
   })
 
-  const Login: () => React$Node = () => {
+  const Login = (props) => {
     const [state, setState] = useState({
         id:'',
         password:'',
@@ -77,7 +80,6 @@ const styles = StyleSheet.create({
         })
     } 
 
-
     const onChangePass = (text) => {
         console.log(text)
         setState({
@@ -87,10 +89,20 @@ const styles = StyleSheet.create({
     } 
 
     const onPress = () => {
+        if( isEmpty(state.id) || isEmpty(state.password) ) {
+            Alert.alert("Invalid", "User Id or password must be fill in")
+            return
+        }
 
+        if( credentials.userId !== state.id && credentials.password !== state.password ) {
+            Alert.alert("Invalid", "Wrong User Id or password mismatched")
+            return
+        }
+
+        homeScreen()
     }
 
-    return(
+    return( 
         <View style={styles.container}>
             <View style={styles.formContainer}>
                 <View style={styles.header}>
@@ -101,7 +113,8 @@ const styles = StyleSheet.create({
                
                 <TextInput
                     style={styles.inputText}
-                    placeholder={"Please enter User ID"}
+                    placeholder={"Enter User ID"}
+                    autoCompleteType="username"
                     placeholderTextColor={"#ccc"}
                     onChangeText={text => onChangeId(text)}
                     value={state.id}
@@ -109,11 +122,12 @@ const styles = StyleSheet.create({
 
                 <TextInput
                     style={styles.inputText}
-                    placeholder={"Please enter password"}
+                    placeholder={"Enter password"}
                     onChangeText={text => onChangePass(text)}
                     placeholderTextColor={"#ccc"}
                     textContentType={'password'}
-                    value={state.id}
+                    secureTextEntry={true}
+                    value={state.password}
                 />
 
                 <TouchableHighlight

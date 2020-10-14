@@ -20,7 +20,6 @@ const WrappedComponent = (ChildComponent) => {
     return EnhancedComponent;
 }
   
-
 Navigation.registerComponent('com.Login', () =>
     WrappedComponent(Login),
 )
